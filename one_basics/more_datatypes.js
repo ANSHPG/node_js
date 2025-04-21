@@ -21,3 +21,11 @@ let myObj = {
 const myFunction = function () {
   console.log("hello world from function");
 };
+
+________________________________________________________________________________
+
+//  stack(Primitive) , Heap(refernce)
+
+let name = "Anshu"
+let anotherName = name
+
