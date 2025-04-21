@@ -1,0 +1,23 @@
+//  primitive
+//  7 types: String , Boolean , Number , null , undefined, Symbol, BigInt
+
+//  reference
+//  array , Objects(imp) , Functions
+
+// Number = 100, 100.3
+// Boolean = true , false
+// Symbol
+const id = Symbol("123");
+const anotherId = Symbol("123");
+console.log([id, anotherId]);
+// BigInt = 123456789n
+
+const heroes = ["ironman", "captainamerica", "blackpanther"];
+let myObj = {
+  name: "anshu",
+  age: 22,
+};
+
+const myFunction = function () {
+  console.log("hello world from function");
+};
