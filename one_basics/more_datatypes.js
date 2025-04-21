@@ -22,10 +22,27 @@ const myFunction = function () {
   console.log("hello world from function");
 };
 
-________________________________________________________________________________
+// ________________________________________________________________________________
 
 //  stack(Primitive) , Heap(refernce)
 
 let name = "Anshu"
 let anotherName = name
+console.log(anotherName)
+anotherName = "Murphy"
+console.table([name , anotherName])
 
+let userOne = {
+  email: "anshu@gmil.com",
+  upi: "user@ybl"
+}
+
+let userTwo = {
+  email: "murphy@gmil.com",
+  upi: "user2@ybl"
+}
+
+let userThree = userOne
+userOne.email = "ziggogle.com"
+
+console.table([userOne.email , userThree.email])
