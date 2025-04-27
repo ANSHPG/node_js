@@ -18,12 +18,12 @@ const JsUser = {
 // console.log(JsUser[sym])
 
 JsUser.location  = "Delhi"
-Object.freeze(JsUser)
+// Object.freeze(JsUser)
 JsUser.location  = "BLR"
 // console.log(JsUser)
 
 JsUser.greeting = function(){
-    console.log("Hello user")
+    console.log(`Hello user, you are currently in ${JsUser.location}`)
 }
-console.log()
+console.log(JsUser.greeting())
 
