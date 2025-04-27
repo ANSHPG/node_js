@@ -61,8 +61,18 @@ const dB = [
 
 // console.log(dB[1]["4"]) 
 
-console.log(Object.keys(tinder))
+// console.log(Object.keys(tinder))
 // console.log(Object.values(tinder))
 // console.log(Object.entries(tinder))
 
-console.log(tinder.hasOwnProperty('gender'))
+// console.log(tinder.hasOwnProperty('gender'))
+
+const course = {
+    courseName: "Js in Jp",
+    price: "78.99",
+    courseInstructor: "Zenin"
+}
+
+const {courseInstructor:instructor} = course
+console.log(instructor)
+
