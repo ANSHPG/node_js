@@ -18,6 +18,16 @@ map.set("JP", "JAPAN");
 
 // console.lo g(map);
 
-for (const [key, value] of map) {
-  console.log(key);
-}
+// for (const [key, value] of map) {
+//   console.log(key);
+// }
+
+const games = {
+  game1: "GTA6",
+  game2: "NFS",
+};
+
+// for (const [key, value] of games) {
+//   console.log(`${value} is ${key}`);
+// }
+
