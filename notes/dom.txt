@@ -1,0 +1,16 @@
+DOCUMENT OBJECT MODEL       
+
+window
+|
+v
+document
+|
+v
+html --> body --> div -> attribute
+|                  |-> h1 -> attribute -> text node 
+v                  |-> p --> attribute 
+head -> title          | --> text node 
+|
+|-> meta -> attribute
+v
+text node(title)
