@@ -24,4 +24,4 @@ for(let key in ipv4Adr) {
     console.log(ipv4Adr[key]);
 }
 
-console.log(ipv4$conv("192.168.0.1"))
+console.log(ipv4$conv("103.169.154.42"))
