@@ -20,8 +20,8 @@ const convD_B = (num) => {
 const ipMap = (ipStr) => ipStr.split(".").map((num) => Number(num));
 const ipv4$conv = (ipv4) => ipMap(ipv4).map((num) => convD_B(num));
 
-for(let key in ipv4Adr) {
-    console.log(ipv4Adr[key]);
+for (let key in ipv4Adr) {
+  console.log(ipv4Adr[key]);
 }
 
-console.log(ipv4$conv("103.169.154.42"))
+console.log(ipv4$conv("103.169.154.42"));

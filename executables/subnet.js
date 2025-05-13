@@ -21,5 +21,4 @@ const subOne = (octectInStr) => {
 };
 
 // console.log(ipMap("103.169.154.42"))
-const snBit = ipMap("103.169.154.42") - 8
-
+const snBit = ipMap("103.169.154.42") - 8;
