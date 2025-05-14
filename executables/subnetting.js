@@ -11,8 +11,8 @@ const ipObj = {
     subNetBit: 1,
     subNetMask: [255,255,255,255]
 }
-ipObj['ipStr'] = ipDec('126.168.0.1')
-ipObj['subNetReq'] = 3
+ipObj['ipStr'] = ipDec('108.168.0.1')
+ipObj['subNetReq'] = 512
 
 ipObj['firstOctect'] = ipObj['ipStr'][0]
 fOct = ipObj['firstOctect']
@@ -28,7 +28,16 @@ while(true){
 ipObj['subNetBit'] = Math.ceil(Math.log2(ipObj['subNetDiv']))
 const bitWeigtage = [0,128,192,224,240,248,252,254,255]
 ipObj['subNetMask'] = ipObj['subNetMask'].map((val,pos)=>pos>ipObj['nBit']/8-1?0:val)
-ipObj['subNetMask'] = ipObj['subNetMask'].map((val,pos)=>{
-    if(val == 0)
-} 
+// ipObj['subNetMask'] = ipObj['subNetMask'].map((val,pos)=>{
+//     if(val == 0) {
+//         ipObj['subNetBit'] = ipObj['subNetBit']-8
+//         if(ipObj['subNetBit']<=0) ipObj['subNetBit']+=8
+//         else if(ipObj['subNetBit'] == 0) return bitWeigtage[ipObj['subNetBit']-1]
+//         else return bitWeigtage[ipObj['subNetBit']]
+//      }
+//     else {
+//         return val
+//     }
+// } )
+ipObj['subNetBit']<=8?ipObj['subNetMask'][ipObj['nBit']/8]=bitWeigtage[ipObj['subNetBit']]:null
 console.log(ipObj);
