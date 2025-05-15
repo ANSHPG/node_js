@@ -40,4 +40,6 @@ ipObj['subNetMask'] = ipObj['subNetMask'].map((val,pos)=>pos>ipObj['nBit']/8-1?0
 //     }
 // } )
 ipObj['subNetBit']<=8?ipObj['subNetMask'][ipObj['nBit']/8]=bitWeigtage[ipObj['subNetBit']]:null
+console.log('hello');
+
 console.log(ipObj);

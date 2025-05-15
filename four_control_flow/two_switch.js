@@ -38,7 +38,7 @@ switch (month) {
     console.log("JAN");
     break;
 
-    default:
-        console.log("NO CASE MATCHED!");
-        break;
+  default:
+    console.log("NO CASE MATCHED!");
+    break;
 }
