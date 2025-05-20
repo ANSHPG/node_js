@@ -35,6 +35,6 @@ val1 = null ?? 10 ?? 20
 // console.log(val1);
 
 // Ternary Operator
-const iceTeaPrice = 120
+const iceTeaPrice = 160
 iceTeaPrice >= 80 ? console.log("more than 80") : console.log("less than 80") 
 
