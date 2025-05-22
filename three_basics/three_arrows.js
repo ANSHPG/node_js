@@ -32,5 +32,5 @@ const addTwo = (num1,num2) => ({user: "Murphy"})
 
 console.log(addTwo(6,7));
 
-const myArray = [2,5,3,7,8,9]
+const myArray = [2,5,3,7,8,9,1]
 
