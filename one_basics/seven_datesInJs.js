@@ -7,7 +7,7 @@ let myDate = new Date()
 let newDate = new Date(2004, 5, 18)
 // console.log(newDate.toDateString())
 
-let timeDate = new Date(2004 , 5 , 18 , 18 , 15)
+let timeDate = new Date(2002     , 5 , 18 , 18 , 15)
 // console.log(timeDate.toLocaleString())
 
 let createDate = new Date("2024-11-08") // international 
