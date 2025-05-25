@@ -8,7 +8,7 @@ console.log(gameName[0])
 console.log(gameName.length)
 console.log(gameName.__proto__)
 console.log(gameName.toUpperCase())
-console.log(gameName.charAt(3))
+console.log(gameName.charAt(4))
 console.log(gameName.indexOf('u'))
 
 const strip = gameName.substring(0,4)
