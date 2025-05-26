@@ -12,7 +12,7 @@ const anotherId = Symbol("123");
 console.log([id, anotherId]);
 // BigInt = 123456789n
 
-const heroes = ["ironman", "captainamerica", "blackpanther"];
+const heroes = ["ironman", "captainamerica", "blackpanther","antman"];
 let myObj = {
   name: "anshu",
   age: 22,
