@@ -12,7 +12,7 @@ const result = add(4,"5",6) // {inputs}: arguments
 
 function login(username) {
     if (!username) {
-        console.log(`${username} not Found!`)
+        console.log(`${username} not Found`)
         return
     }
     return `${username}`
