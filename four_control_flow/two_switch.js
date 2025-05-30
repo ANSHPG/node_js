@@ -39,6 +39,6 @@ switch (month) {
     break;
 
   default:
-    console.log("NO CASE MATCHED!");
+    console.log("NONE OF THE CASES ARE MATCHING!");
     break;
 }
