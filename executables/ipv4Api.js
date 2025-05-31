@@ -15,4 +15,4 @@ const nID = (ipArr) => {
     }
 }
 
-console.log(classSegr(-79));
+console.log(classSegr(-78));
