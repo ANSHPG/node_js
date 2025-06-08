@@ -1,0 +1,22 @@
+body {
+  background-color: #212121;
+  padding-left: 1vw;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.header {
+  color: aliceblue;
+}
+
+#title {
+  color: #ffffff;
+  font-size: 2vw;
+}
+
+#hide {
+  display: none;
+}
+
+.list {
+    color: #ffffff;
+}
