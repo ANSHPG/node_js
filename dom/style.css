@@ -17,6 +17,12 @@ body {
   display: none;
 }
 
-.list {
-    color: #ffffff;
+ul {
+  background-color: #e3d6d6;
 }
+
+.list {
+  color: #706e6e;
+  padding-left: 5vw;
+}
+
