@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=
+    , initial-scale=1.0"
+    />
+    <title>Document</title>
+    <style>
+      body {
+        background-color: #212121;
+        color: #fdfdfd;
+        transition: background-color 0.6s ease-in-out;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1 id="title">Bg Pallete Configuration</h1>
+    <button id="start">Start</button>
+    <button id="stop">Stop</button>
+  </body>
+
+  <script>
+    const dcm = document;
+    const body = dcm.querySelector("body");
+    const start = dcm.querySelector("#start");
+    const stop = dcm.querySelector("#stop");
+
+    const clrGeneration = () => {
+      const Hex = "0123456789ABCDEF";
+      let colour = "#";
+      "012345"
+        .split("")
+        .map((i) => (colour += Hex[Math.floor(Math.random() * 16)]));
+      body.style.backgroundColor = colour;
+    };
+
+    let interval = null;
+    const bgUpdate = (status) => {
+      if (status == 1 && interval == null)
+        interval = setInterval(() => clrGeneration(), 1000);
+      else if (status == 0 && interval != null) {
+        clearInterval(interval);
+        interval = null;
+      }
+    };
+
+    start.addEventListener("click", () => bgUpdate(1), false);
+    stop.addEventListener("click", () => bgUpdate(0), false);
+  </script>
+</html>

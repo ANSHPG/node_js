@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body style="background-color: #212121; color: grey">
+    <h1>Mern Bloom Pink</h1>
+    <button>start</button>
+    <button>stop</button>
+    <button>reset</button>
+</body>
+<script>
+    let sec = 0,
+        min = 0;
+
+    let interval;
+    const interMethod = (operation) => {
+        if (operation === 1) interval = setInterval(intervalBackHandle, 1000);
+        else clearInterval(interval);
+    };
+
+    const innertxt = () => {
+        document.querySelector(
+            "h1"
+        ).innerText = `${min} minutes and ${sec} seconds since session started!`;
+    }
+    // const intervalh = setInterval(intervalBackHandle, 1000);
+    function intervalBackHandle() {
+        sec += 1;
+        if (sec === 60) {
+            sec = 0;
+            min += 1;
+        }
+
+        // console.log(sec);
+        innertxt();
+    }
+
+    Array.from(document.querySelectorAll("button")).map((node, index) => {
+        node.addEventListener("click", function () {
+            if (index === 0) interMethod(1);
+            else if (index === 1) interMethod(0);
+            else {
+                sec = 0;
+                min = 0;
+                interMethod(0);
+                innertxt();
+            }
+        });
+    });
+    // clearInterval(intervalh)
+</script>
+
+</html>

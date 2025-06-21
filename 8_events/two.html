@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body style="background-color: #212121; color: grey">
+    <h1>Mern Bloom Pink</h1>
+    <button>stop</button>
+  </body>
+  <script>
+    console.log("reference");
+
+    const updt = setTimeout(execute, 5000);
+    function execute() {
+      console.log("Execute");
+      document.querySelector("h1").innerText = "Pink Bloom Mern";
+    }
+
+    document.querySelector("button").addEventListener(
+      "click",
+      (event) => {
+        clearTimeout(updt);
+        console.log('change Terminated!');
+      },
+      false
+    );
+  </script>
+</html>

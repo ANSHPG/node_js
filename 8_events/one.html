@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+        body {
+            background-color: #555454;
+            color: #fdfdfd;
+            padding: 2vw;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5vw;
+            align-items: center;
+            justify-content: center;
+            justify-items: center;
+        }
+
+        img {
+            width: 25vw;
+            border-radius: 3%;
+        }
+    </style>
+</head>
+
+<body>
+    <img src="assets/1.jpg" id="one" alt="first" />
+    <img src="assets/2.jpg" id="two" alt="second" />
+    <img src="assets/3.jpg" id="three" alt="third" />
+    <img src="assets/4.jpg" id="four" alt="fourth" />
+    <a href="help.html" target="_blank" id="link">help.com</a>
+</body>
+<script>
+    const list = Array.from(document.querySelectorAll("img"));
+    list.map((node) =>
+        node.addEventListener(
+            "click",
+            function (event) {
+                // alert(`clicked on ${this.id}`);
+                console.log(`clicked on ${this.id}\n${event.srcElement}`);
+                // node.style.display = 'none';
+                console.log(event.target.alt);
+                event.target.remove();
+            },
+            false
+        )
+    );
+
+    document.querySelector('#link').addEventListener('click', function (event) {
+        event.preventDefault();
+        console.log('click on link');
+    }, false)
+</script>
+
+</html>
