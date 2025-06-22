@@ -55,30 +55,55 @@
 //     console.log('The task is either completed or rejected!');
 //   })
 
-const duty = () =>
-  new Promise((resolve, reject) => {
-    let vheicle = {
-      name: "CAT-7AWD-03S2",
-      company: "caterpillar"
-    };
+// const duty = () =>
+//   new Promise((resolve, reject) => {
+//     let vheicle = {
+//       name: "CAT-7AWD-03S2",
+//       company: "caterpillar"
+//     };
 
-    let error = true;
-    if (!error) {
-      vheicle["status"] = "online";
-      resolve(vheicle);
-    } else {
-      vheicle["status"] = "offline";
-      reject(vheicle);
-    }
+//     let error = true;
+//     if (!error) {
+//       vheicle["status"] = "online";
+//       resolve(vheicle);
+//     } else {
+//       vheicle["status"] = "offline";
+//       reject(vheicle);
+//     }
+//   });
+
+// async function postDuty() {
+//   try {
+//     const recieve = await duty();
+//     console.log(recieve);
+//   } catch(error) {
+//     console.log(error);
+//   }
+// }
+
+// postDuty()
+
+// async function getUserData() {
+//   try {
+//     const url = "https://randomuser.me/api/";
+//     const response = await fetch(url);
+//     const data = await response.json()
+//     console.log(data.results[0].location.country);
+//   } catch (error) {
+//     console.log("E:", error);
+//   }
+// }
+
+// getUserData()
+
+const url = "https://randomuser.me/api/";
+fetch(url)
+  .then((resolve) => {
+    return resolve.json();
+  })
+  .then((response) => {
+    console.log(response.results[0].location.country);
+  })
+  .catch((reject) => {
+    console.log("E:", reject);
   });
-
-async function postDuty() {
-  try {
-    const recieve = await duty();
-    console.log(recieve);
-  } catch(error) {
-    console.log(error);
-  }
-}
-
-postDuty()
