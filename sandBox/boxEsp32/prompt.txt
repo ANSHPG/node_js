@@ -1,0 +1,432 @@
+
+thanks but i have few changes to made:
+
+your previous code was a bit faulty, so i fixed it:
+#include <WiFi.h>
+#include <WebServer.h>
+
+const char* ssid = "-";
+const char* password = "-";
+
+WebServer server(80);
+
+const char htmlPage[] PROGMEM = R"rawliteral(
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AnshpWeather</title>
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'SF Pro Display', sans-serif;
+            background: url('https://images.unsplash.com/photo-1611928482473-7b27d24eab80?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center/cover;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #container {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            color: white;
+        }
+
+        #title {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        #sub-title {
+            font-size: 1rem;
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+
+        .search {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .search input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 10px 0 0 10px;
+            outline: none;
+            font-size: 1rem;
+        }
+
+        .search button {
+            background-color: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            border: none;
+            border-radius: 0 10px 10px 0;
+            padding: 0 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        #response {
+            margin-top: 20px;
+            font-size: 1rem;
+            text-align: left;
+        }
+
+        #response p {
+            margin: 8px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .material-icons {
+            margin-right: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <p id="title">AnshpWeather</p>
+        <p id="sub-title">Powered by ESP32</p>
+        <div class="search">
+            <input type="text" id="location" placeholder="Enter Location">
+            <button id="srch_bttn"><span class="material-icons">search</span></button>
+        </div>
+        <div id="response">
+            <!-- Weather results here -->
+        </div>
+    </div>
+    <script>
+        const api_key = "-";
+        const celcius = (temp) => parseFloat((temp - 273.15).toFixed(2));
+
+        document.getElementById("srch_bttn").addEventListener("click", () => {
+            const location = document.getElementById("location").value;
+            if (location) getWeather(location);
+        });
+
+        async function getCoordinates(location) {
+            const url = `https://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=${api_key}`;
+            const res = await fetch(url);
+            const data = await res.json();
+            if (data.length > 0) return { lat: data[0].lat, lon: data[0].lon };
+            alert("Location not found");
+        }
+
+        async function getWeather(location) {
+            try {
+                const coords = await getCoordinates(location);
+                if (!coords) return;
+                const url = `https://api.openweathermap.org/data/2.5/weather?lat=${coords.lat}&lon=${coords.lon}&appid=${api_key}`;
+                const res = await fetch(url);
+                const data = await res.json();
+                const weather = {
+                    location: `${data.name}, ${data.sys.country}`,
+                    temp: celcius(data.main.temp),
+                    feels_like: celcius(data.main.feels_like),
+                    humidity: data.main.humidity,
+                    main: data.weather[0].main,
+                    description: data.weather[0].description
+                };
+                renderWeather(weather);
+            } catch (err) {
+                alert("Error fetching weather data.");
+                console.error(err);
+            }
+        }
+
+        function renderWeather(w) {
+            document.getElementById("response").innerHTML = `
+    <p><span class="material-icons">location_on</span><strong>${w.location}</strong></p>
+    <p><span class="material-icons">device_thermostat</span>Temperature: ${w.temp}</p>
+    <p><span class="material-icons">thermostat</span>Feels Like: ${w.feels_like} u2103</p>
+    <p><span class="material-icons">water_drop</span>Humidity: ${w.humidity}%</p>
+    <p><span class="material-icons">cloud</span>Weather: ${w.main} - ${w.description}</p>
+    `;
+        }
+    </script>
+</body>
+
+</html>
+)rawliteral";
+
+void setup() {
+  Serial.begin(115200);
+  WiFi.begin(ssid, password);
+  Serial.println("Connecting to WiFi...");
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("\nConnected! IP: " + WiFi.localIP().toString());
+
+  server.on("/", []() {
+    server.send_P(200, "text/html", htmlPage);
+  });
+
+  server.begin();
+  Serial.println("WebServer started.");
+}
+
+void loop() {
+  server.handleClient();
+}
+
+this code was from another project where i implementedliquid glass, so take inspiration from these:
+@import url('https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: #ffffff;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.bg-img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: url("./assets/ip16hand.jpg") center center/contain no-repeat;
+  background-size: contain;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  /* Ensure image is never cropped */
+  min-width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.operationBox {
+  position: relative;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 24px;
+  padding: 40px 32px;
+  min-width: 246.4px;
+  max-width: 296.4px;
+  /* height: 300px; */
+  text-align: center;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.25),
+    0 4px 16px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  animation: slideUp 0.6s ease-out;
+  translate: -5.25px -120px
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#title {
+  font-size: 16px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 24px;
+  letter-spacing: -0.2px;
+  text-transform: uppercase;
+}
+
+input[type="number"] {
+  width: 100%;
+  padding: 16px 20px;
+  font-size: 18px;
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  outline: none;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+input[type="number"]:focus {
+  border-color: rgba(228, 45, 82, 0.6);
+  box-shadow: 
+    0 2px 20px rgba(108, 26, 43, 0.704),
+    0 0 0 2px rgba(225, 93, 119, 0.993),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+input[type="number"]::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 400;
+}
+
+/* Remove number input arrows */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.submit {
+  width: 100%;
+  padding: 16px 24px;
+  font-size: 18px;
+  font-weight: 600;
+  background: rgba(255, 55, 95, 0.9);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: white;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  margin-bottom: 24px;
+  transition: all 0.3s ease;
+  box-shadow: 
+    0 2px 20px rgba(255, 55, 95, 0.4),
+    0 2px 8px rgba(255, 55, 95, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  letter-spacing: -0.2px;
+}
+
+.submit:hover {
+  background: rgba(255, 55, 95, 1);
+  transform: translateY(-2px);
+  box-shadow: 
+    0 2px 11px rgba(112, 34, 49, 0.5),
+    0 2px 12px rgba(228, 89, 116, 0.825),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.submit:active {
+  transform: translateY(0);
+  box-shadow: 
+    0 4px 15px rgba(255, 55, 95, 0.4),
+    0 2px 6px rgba(255, 55, 95, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.previousGuess,
+.guessRemain {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin: 8px 0;
+  font-size: 16px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  box-shadow: 
+    0 2px 8px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.09);
+  letter-spacing: -0.1px;
+}
+
+.prvGuessNum,
+.remainGuessValue {
+  font-weight: 700;
+  color: #ff375f;
+  text-shadow: none;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .operationBox {
+    margin: 20px;
+    padding: 32px 24px;
+    min-width: unset;
+    max-width: calc(100vw - 40px);
+  }
+  
+  #title {
+    font-size: 28px;
+  }
+  
+  input[type="number"],
+  .submit {
+    font-size: 16px;
+    padding: 14px 18px;
+  }
+  
+  .bg-img {
+    width: 100vw;
+    aspect-ratio: unset;
+  }
+}
+
+/* Additional iOS-style enhancements */
+@media (prefers-color-scheme: light) {
+  .operationBox {
+    background: rgba(0, 0, 0, 0.35);
+  }
+}
+
+/* Smooth scrolling for iOS feel */
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Selection styling */
+::selection {
+  background: rgba(255, 55, 95, 0.3);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+::-moz-selection {
+  background: rgba(255, 55, 95, 0.3);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+and make the theme similar to the image which is the apple weather
+and also make the layout same as mobile resolution , so even in desktop resolution , it can be of mobile 

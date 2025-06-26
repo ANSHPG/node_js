@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather</title>
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: url('https://images.unsplash.com/photo-1611928482473-7b27d24eab80?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center/cover;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 20px;
+            width: 95%;
+            max-width: 340px;
+            color: white;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        #title {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        #sub-title {
+            font-size: 1rem;
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+
+        .search {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .search input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 10px 0 0 10px;
+            outline: none;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+        }
+
+        .search button {
+            background: rgba(255, 255, 255, 0.3);
+            border: none;
+            border-radius: 0 10px 10px 0;
+            padding: 0 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #response {
+            margin-top: 20px;
+            font-size: 1rem;
+            text-align: left;
+        }
+
+        #response p {
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .material-icons {
+            margin-right: 8px;
+        }
+
+        @media (min-width: 600px) {
+            #container {
+                max-width: 340px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <p id="title">AnshpWeather</p>
+        <p id="sub-title">Powered by ESP32</p>
+        <div class="search">
+            <input type="text" id="location" placeholder="Enter Location">
+            <button id="srch_bttn"><span class="material-icons">search</span></button>
+        </div>
+        <div id="response">
+            <!-- Weather results will appear here -->
+        </div>
+    </div>
+
+    <script>
+        const api_key = "a1c44272941b28a565a8da53aef4b0eb";
+        const celcius = (temp) => parseFloat((temp - 273.15).toFixed(2));
+
+        document.getElementById("srch_bttn").addEventListener("click", () => {
+            const location = document.getElementById("location").value;
+            if (location) getWeather(location);
+        });
+
+        async function getCoordinates(location) {
+            const url = `https://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=${api_key}`;
+            const res = await fetch(url);
+            const data = await res.json();
+            if (data.length > 0) return { lat: data[0].lat, lon: data[0].lon };
+            alert("Location not found");
+        }
+
+        async function getWeather(location) {
+            try {
+                const coords = await getCoordinates(location);
+                if (!coords) return;
+                const url = `https://api.openweathermap.org/data/2.5/weather?lat=${coords.lat}&lon=${coords.lon}&appid=${api_key}`;
+                const res = await fetch(url);
+                const data = await res.json();
+                const weather = {
+                    location: `${data.name}, ${data.sys.country}`,
+                    temp: celcius(data.main.temp),
+                    feels_like: celcius(data.main.feels_like),
+                    humidity: data.main.humidity,
+                    main: data.weather[0].main,
+                    description: data.weather[0].description
+                };
+                renderWeather(weather);
+            } catch (err) {
+                alert("Error fetching weather data.");
+                console.error(err);
+            }
+        }
+
+        function renderWeather(w) {
+            const icon = selectIcon(w.main);
+            document.getElementById("response").innerHTML = `
+            <p><span class="material-icons">location_on</span><strong>${w.location}</strong></p>
+            <p><span class="material-icons">device_thermostat</span>Temp: ${w.temp}°C</p>
+            <p><span class="material-icons">thermostat</span>Feels Like: ${w.feels_like}°C</p>
+            <p><span class="material-icons">water_drop</span>Humidity: ${w.humidity}%</p>
+            <p><span class="material-icons">${icon}</span>${w.main} - ${w.description}</p>
+        `;
+        }
+
+        function selectIcon(main) {
+            switch (main.toLowerCase()) {
+                case 'clear': return 'wb_sunny';
+                case 'clouds': return 'cloud';
+                case 'rain': return 'umbrella';
+                case 'snow': return 'ac_unit';
+                case 'thunderstorm': return 'bolt';
+                case 'drizzle': return 'grain';
+                case 'mist': return 'water';
+                default: return 'filter_drama';
+            }
+        }
+    </script>
+</body>
+
+</html>
