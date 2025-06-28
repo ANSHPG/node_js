@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body style="background-color: #212121; color: #fff;">
+    <button>Yuji</button>
+</body>
+<script>
+    class React {
+        constructor() {
+            this.library = 'React'
+            this.server = 'http://127.0.0.1:5500/'
+
+            document
+                .querySelector('button')
+                .addEventListener('click', this.hndlClick.bind(this), false)
+        }
+
+        hndlClick() {
+            console.log('Yuji is here!');
+            console.log(this.server)
+        }
+    }
+
+    const app = new React();
+
+
+</script>
+
+</html>
