@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body style="background-color: #212121;">
+
+    <button id="lightG">green</button>
+    <button id="lightP">pink</button>
+</body>
+<script>
+    const dcm = document
+    function clickHandle(color) {
+        return function () {
+            dcm.querySelector('body').style.backgroundColor = `${color}`;
+        }
+    }
+
+    dcm.querySelector('#lightG').onclick = clickHandle('#71e392');
+    dcm.querySelector('#lightP').onclick = clickHandle('#c987d6')
+
+    // dcm.getElementById('lightG').onClick = clickHandle('#71e392');
+
+
+</script>
+
+</html>
